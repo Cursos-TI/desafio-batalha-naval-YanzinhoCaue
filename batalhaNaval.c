@@ -46,7 +46,7 @@ int main() {
             printf("\nIniciando jogo...\n\n");
             tabuleiro(matriz); // Exibe o tabuleiro inicial
 
-            // Escolha do jogador para eixo X
+            // Escolha do jogador para eixo X e y
             printf("\nEscolha uma posição de 'A' a 'J' para mover o navio no eixo X:\n");
             scanf(" %c", &x);
             printf("Agora escolha uma posição de '1' a '10' para mover o navio no eixo Y:\n");
@@ -101,6 +101,77 @@ int main() {
                 printf("Posicionando navio...\n\n");
                 tabuleiro(matriz); // Atualiza o tabuleiro
             }
+
+            // Jogabilidade de disparos
+            printf("\nEscolha uma posição de 'A' a 'J' para atirar o missel no eixo X:\n");
+            scanf(" %c", &x);
+            printf("Agora escolha uma posição de '1' a '10' para atirar o missel no eixo Y:\n");
+            scanf("%d", &y);
+
+
+            if (strchr("abcdefghijABCDEFGHIJ", x) == NULL) {
+                printf("Opção de eixo X inválida...\n");
+            } else if (y < 1 || y > 10) {
+                printf("Opção de eixo Y inválida...\n");
+            } else {
+                // Converte a letra X para um índice numérico (0 a 9)
+                int coluna = (x >= 'a') ? x - 'a' : x - 'A';
+                int linha = y - 1; // Ajusta para índice da matriz (0 a 9)
+
+                // Pergunta a direção do barco
+                int missel;
+
+                printf("\n===Disparar Misseis===\n");
+                printf("\nEscolha o tipo de missel para atirar:\n");
+                printf("1. Cone (△)\n");
+                printf("2. Cruz (†)\n");
+                printf("3. Octaedro(◆)\n");
+                scanf("%d", &missel);
+
+                // Posiciona o missel de acordo com a direção escolhida
+                if (missel == 1) { // Disparo do Cone
+                    matriz[linha][coluna] = 1;
+                    if (linha - 1 < LINHAS) matriz[linha - 1][coluna] = 1;
+                    if (coluna < COLUNAS) matriz[linha][coluna + 1] = 1;
+                    if (coluna < COLUNAS) matriz[linha][coluna - 1] = 1;
+                    if(coluna + 1 < COLUNAS) matriz[linha + 1][coluna] = 1;
+                    if(coluna + 1 < COLUNAS) matriz[linha + 1][coluna - 1] = 1;
+                    if(coluna + 1 < COLUNAS) matriz[linha + 1][coluna + 1] = 1;
+                    if(coluna + 1 < COLUNAS) matriz[linha + 1][coluna - 2] = 1;
+                    if(coluna + 1 < COLUNAS) matriz[linha + 1][coluna + 2] = 1;
+                } 
+                else if (missel == 2) { // Disparo da Cruz
+                    matriz[linha][coluna] = 2;
+                    if (linha - 1 < LINHAS) matriz[linha - 1][coluna] = 2;
+                    if(coluna < COLUNAS) matriz[linha][coluna - 1] = 2;
+                    if(coluna < COLUNAS) matriz[linha][coluna + 1] = 2;
+                    if(linha + 1 < LINHAS) matriz[linha + 1][coluna] = 2;
+                } 
+                else if (missel == 3) { // Diagonal para cima (↗)
+                    matriz[linha][coluna] = 4;
+                    if (linha - 1 < LINHAS) matriz[linha - 1][coluna] = 4;
+                    if (linha - 1 < LINHAS) matriz[linha - 1][coluna - 1] = 4;
+                    if (linha - 1 < LINHAS) matriz[linha - 1][coluna + 1] = 4;
+                    if (linha - 2 < LINHAS) matriz[linha - 2][coluna] = 4;
+                    if (coluna < COLUNAS) matriz[linha][coluna - 1] = 4;
+                    if (coluna < COLUNAS) matriz[linha][coluna - 2] = 4;
+                    if (coluna < COLUNAS) matriz[linha][coluna + 1] = 4;
+                    if (coluna < COLUNAS) matriz[linha][coluna + 2] = 4;
+                    if (linha + 1 < LINHAS) matriz[linha + 1][coluna] = 4;
+                    if (linha + 1 < LINHAS) matriz[linha + 1][coluna - 1] = 4;
+                    if (linha + 1 < LINHAS) matriz[linha + 1][coluna + 1] = 4;
+                    if (linha + 2 < LINHAS) matriz[linha + 2][coluna] = 4;
+                } 
+                else {
+                    printf("Opção de direção inválida...\n");
+                }
+
+                printf("Posicionando navio...\n\n");
+                tabuleiro(matriz); // Atualiza o tabuleiro
+            }
+            
+
+            
             break;
 
         case 2:
