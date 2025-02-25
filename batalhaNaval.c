@@ -46,6 +46,7 @@ int main() {
             printf("\nIniciando jogo...\n\n");
             tabuleiro(matriz); // Exibe o tabuleiro inicial
 
+            // Escolha do jogador para eixo X
             printf("\nEscolha uma posição de 'A' a 'J' para mover o navio no eixo X:\n");
             scanf(" %c", &x);
             printf("Agora escolha uma posição de '1' a '10' para mover o navio no eixo Y:\n");
@@ -61,10 +62,41 @@ int main() {
                 int coluna = (x >= 'a') ? x - 'a' : x - 'A';
                 int linha = y - 1; // Ajusta para índice da matriz (0 a 9)
 
-                // Posiciona o navio (3) na matriz
-                matriz[linha][coluna] = 3;
-                if (coluna + 1 < COLUNAS) matriz[linha][coluna + 1] = 3; // Direita 1
-                if (coluna + 2 < COLUNAS) matriz[linha][coluna + 2] = 3; // Direita 2
+                // Pergunta a direção do barco
+                int direcao;
+                printf("Escolha a direção do navio:\n");
+                printf("1. Horizontal\n");
+                printf("2. Diagonal para baixo (↘)\n");
+                printf("3. Diagonal para cima (↗)\n");
+                scanf("%d", &direcao);
+
+                // Posiciona o navio de acordo com a direção escolhida
+                if (direcao == 1) { // Horizontal (padrão)
+                    matriz[linha][coluna] = 3;
+                    if (coluna + 1 < COLUNAS) matriz[linha][coluna + 1] = 3;
+                    if (coluna + 2 < COLUNAS) matriz[linha][coluna + 2] = 3;
+                } 
+                else if (direcao == 2) { // Diagonal para baixo (↘)
+                    if (linha + 2 < LINHAS && coluna + 2 < COLUNAS) { 
+                        matriz[linha][coluna] = 3;
+                        matriz[linha + 1][coluna + 1] = 3;
+                        matriz[linha + 2][coluna + 2] = 3;
+                    } else {
+                        printf("Posição inválida para diagonal para baixo.\n");
+                    }
+                } 
+                else if (direcao == 3) { // Diagonal para cima (↗)
+                    if (linha - 2 >= 0 && coluna + 2 < COLUNAS) { 
+                        matriz[linha][coluna] = 3;
+                        matriz[linha - 1][coluna + 1] = 3;
+                        matriz[linha - 2][coluna + 2] = 3;
+                    } else {
+                        printf("Posição inválida para diagonal para cima.\n");
+                    }
+                } 
+                else {
+                    printf("Opção de direção inválida...\n");
+                }
 
                 printf("Posicionando navio...\n\n");
                 tabuleiro(matriz); // Atualiza o tabuleiro
